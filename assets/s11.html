@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon Navigation Bar - Bootstrap 5.3</title>
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* Navigation Container */
+        .navbar-custom {
+            background: rgba(20, 20, 20, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .navbar-custom .container-fluid {
+            padding: 0;
+        }
+
+        /* Logo Styling */
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover .logo-icon {
+            transform: rotate(10deg);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: none;
+        }
+
+        /* Navigation List */
+        .navbar-nav {
+            gap: 0;
+            align-items: center;
+        }
+
+        /* Individual Nav Item */
+        .nav-item {
+            position: relative;
+        }
+
+        /* Nav Link Container */
+        .nav-link-custom {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #ffffff !important;
+            padding: 20px;
+            cursor: pointer;
+            overflow: visible;
+            transition: transform 0.3s ease;
+            background: transparent;
+            border: none;
+        }
+
+        /* Icon Styling */
+        .nav-icon {
+            font-size: 28px;
+            color: #ffffff;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Icon background circle effect */
+        .nav-link-custom::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1;
+        }
+
+        /* Text Label */
+        .nav-text {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            opacity: 0;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 8px 20px;
+            border-radius: 25px;
+            color: #ffffff;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Small indicator arrow */
+        .nav-text::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid #667eea;
+        }
+
+        /* Hover Effects - Desktop Only */
+        @media (min-width: 769px) {
+            .nav-link-custom:hover .nav-icon {
+                transform: scale(1.2) translateY(-5px);
+                filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+                color: #ffffff;
+            }
+
+            .nav-link-custom:hover::before {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            .nav-link-custom:hover .nav-text {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            /* Remove text animation from other items when one is hovered */
+            .navbar-nav:hover .nav-link-custom:not(:hover) .nav-text {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+        }
+
+        /* Active State */
+        .nav-link-custom.active .nav-icon {
+            color: #667eea;
+            transform: scale(1.1);
+        }
+
+        .nav-link-custom.active::before {
+            opacity: 0.3;
+            transform: scale(1);
+        }
+
+        /* Demo Content */
+        .demo-content {
+            text-align: center;
+            color: white;
+            margin-top: 100px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .demo-content h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .demo-content p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .navbar-custom {
+                border-radius: 30px;
+                padding: 15px 20px;
+            }
+
+            .logo-text {
+                display: inline;
+                font-size: 18px;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            /* Mobile Menu Styles */
+            .navbar-collapse {
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .navbar-nav {
+                gap: 10px;
+            }
+
+            .nav-item {
+                width: 100%;
+            }
+
+            .nav-link-custom {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 15px 20px;
+                border-radius: 15px;
+                transition: all 0.3s ease;
+            }
+
+            .nav-link-custom:hover,
+            .nav-link-custom:active {
+                background: rgba(102, 126, 234, 0.2);
+            }
+
+            .nav-icon {
+                font-size: 24px;
+                margin-right: 15px;
+            }
+
+            .nav-text {
+                position: static;
+                transform: none;
+                opacity: 1;
+                background: none;
+                box-shadow: none;
+                padding: 0;
+                font-size: 16px;
+                text-align: left;
+            }
+
+            .nav-text::before {
+                display: none;
+            }
+
+            .nav-link-custom::before {
+                display: none;
+            }
+
+            .nav-link-custom.active {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+            }
+
+            .nav-link-custom.active .nav-icon,
+            .nav-link-custom.active .nav-text {
+                color: #ffffff;
+            }
+
+            .demo-content h1 {
+                font-size: 32px;
+            }
+
+            .demo-content p {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-custom {
+                border-radius: 25px;
+                padding: 12px 15px;
+            }
+
+            .logo-text {
+                font-size: 16px;
+            }
+
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+
+            .nav-link-custom {
+                padding: 12px 15px;
+            }
+
+            .nav-icon {
+                font-size: 22px;
+            }
+
+            .nav-text {
+                font-size: 15px;
+            }
+
+            .demo-content h1 {
+                font-size: 28px;
+            }
+
+            .demo-content p {
+                font-size: 14px;
+            }
+        }
+
+        /* Navbar Toggler Custom Style */
+        .navbar-toggler {
+            border: none;
+            padding: 8px;
+            border-radius: 10px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: 2px solid #667eea;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#home">
+                <div class="logo-icon">
+                    <i class="bi bi-lightning-charge-fill"></i>
+                </div>
+                <span class="logo-text">BrandName</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Menu -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Home -->
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link nav-link-custom active">
+                            <i class="nav-icon bi bi-house-door-fill"></i>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+
+                    <!-- About Us -->
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link nav-link-custom">
+                            <i class="nav-icon bi bi-person-fill"></i>
+                            <span class="nav-text">About Us</span>
+                        </a>
+                    </li>
+
+                    <!-- Services -->
+                    <li class="nav-item">
+                        <a href="#services" class="nav-link nav-link-custom">
+                            <i class="nav-icon bi bi-briefcase-fill"></i>
+                            <span class="nav-text">Services</span>
+                        </a>
+                    </li>
+
+                    <!-- Gallery -->
+                    <li class="nav-item">
+                        <a href="#gallery" class="nav-link nav-link-custom">
+                            <i class="nav-icon bi bi-images"></i>
+                            <span class="nav-text">Gallery</span>
+                        </a>
+                    </li>
+
+                    <!-- Contact -->
+                    <li class="nav-item">
+                        <a href="#contact" class="nav-link nav-link-custom">
+                            <i class="nav-icon bi bi-envelope-fill"></i>
+                            <span class="nav-text">Contact</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Demo Content -->
+    <div class="demo-content">
+        <h1>🎨 Icon Navigation Bar</h1>
+        <p><strong>Desktop:</strong> Hover over icons to see text animation from bottom to top</p>
+        <p><strong>Mobile:</strong> Icons appear beside text names</p>
+        <p style="font-size: 14px; opacity: 0.7; margin-top: 20px;">
+            ✨ Built with Bootstrap 5.3<br>
+            📱 Fully responsive and mobile-friendly
+        </p>
+    </div>
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Get all navigation links
+        const navLinks = document.querySelectorAll('.nav-link-custom');
+
+        // Add click event listeners
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Close mobile menu after click
+                const navbarCollapse = document.getElementById('navbarNav');
+                const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+                if (bsCollapse) {
+                    bsCollapse.hide();
+                }
+                
+                // Optional: Smooth scroll to section
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // For touch devices - show text on tap (desktop only)
+        if ('ontouchstart' in window && window.innerWidth > 768) {
+            navLinks.forEach(link => {
+                link.addEventListener('touchstart', function(e) {
+                    // Remove text visibility from other links
+                    navLinks.forEach(l => {
+                        if (l !== this) {
+                            const text = l.querySelector('.nav-text');
+                            if (text) {
+                                text.style.opacity = '0';
+                            }
+                        }
+                    });
+                });
+            });
+        }
+
+        // Keyboard navigation support
+        navLinks.forEach(link => {
+            link.addEventListener('focus', function() {
+                if (window.innerWidth > 768) {
+                    const text = this.querySelector('.nav-text');
+                    if (text) {
+                        text.style.opacity = '1';
+                        text.style.transform = 'translateX(-50%) translateY(0)';
+                    }
+                }
+            });
+
+            link.addEventListener('blur', function() {
+                if (window.innerWidth > 768 && !this.matches(':hover')) {
+                    const text = this.querySelector('.nav-text');
+                    if (text) {
+                        text.style.opacity = '0';
+                        text.style.transform = 'translateX(-50%) translateY(20px)';
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
