@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# డొమైన్ పక్కన నేరుగా స్లగ్ ఉంటే దాన్ని fullblog.php కి పంపిస్తుంది
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-zA-Z0-9_-]+)$ fullblog.php?slug=$1 [L,QSA]
